@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.exceptions import ParseError
 from .serializers import ProductDetailSerializer, ProductsListSerializer
 from .models import Product
 
@@ -13,20 +14,25 @@ class ProductsListView(generics.ListAPIView):
     serializer_class = ProductsListSerializer
 
     @staticmethod
-    def check_filter(data):
+    def check_value(key, value):
+        if not value.replace('.', '').isdigit():
+            raise ParseError(detail=f'параметр {key} должен иметь тип float or int')
+
+    def check_filter(self, data):
         result = Product.objects.all()
         if not data:
             return result
         if 'type' in data:
             result = result.filter(product_type=data['type'][0])
         if 'price' in data:
+            self.check_value('price', data['price'][0])
             result = result.filter(price=data['price'][0])
         if 'by_price' in data:
-            if data['by_price'][0].replace('.', '').isdigit():
-                result = result.filter(price__gte=float(data['by_price'][0]))
+            self.check_value('by_price', data['by_price'][0])
+            result = result.filter(price__gte=data['by_price'][0])
         if 'to_price' in data:
-            if data['to_price'][0].replace('.', '').isdigit():
-                result = result.filter(price__lt=float(data['to_price'][0]))
+            self.check_value('to_price', data['to_price'][0])
+            result = result.filter(price__lt=data['to_price'][0])
         return result
 
     def get(self, request, *args, **kwargs):
