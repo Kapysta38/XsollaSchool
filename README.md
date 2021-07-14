@@ -6,6 +6,7 @@ Solving the Xsolla Summer School 2021 Test Assignment on [back-end](https://gith
 # Что реализовано
 
 * API-методы для управлениями товарами - [операции CRUD](https://ru.wikipedia.org/wiki/CRUD)
+* Фильтрация товаров по их типу и стоимости в методе получения каталога товаров.
 
 # Требования
 * python v3.x
