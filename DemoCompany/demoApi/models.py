@@ -11,6 +11,9 @@ class Product(models.Model):
     product_type = models.IntegerField(choices=PRODUCT_TYPE, db_index=True, verbose_name='Тип')
     price = models.FloatField(verbose_name='Цена', db_index=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'Продукт'
-        verbose_name_plural = 'Продукты'
+        verbose_name_plural = 'Продуктов'
