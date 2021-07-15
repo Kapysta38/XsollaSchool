@@ -10,19 +10,16 @@ Solving the Xsolla Summer School 2021 Test Assignment on [back-end](https://gith
 
 # Требования
 * python v3.x
-* django v3.2.5
-* djangorestframework v3.12.4
-* djoser v2.1.0
-* uritemplate v3.0.1
+* Смотри файл requirements.txt
 
 
-Для установки django и djangorestframework, djoser, uritemplate использовать: `pip install django==3.2.5` `pip install djangorestframework==3.12.4` `pip install djoser==2.1.0` `pip install pyyaml uritemplate==3.0.1`
+Для установки использовать: `pip install -r requirements.txt`
 
 # Запуск
 В папке с файлом *manage.py* выполнить команду: `python manage.py runserver`. Приложение будет запущено по адресу http://localhost:8000/.
 
 # API
-* OpenAPI-спецификация API, предоставляемого сервером, доступна по адресу https://localhost:8000/api/v1/demoApi/openapi/
+* Документация для разработанного REST API доступна по адресу http://localhost:8000/api/v1/docs/
 
 # Доступные пользователи (логин, пароль):
 * admin, admin
