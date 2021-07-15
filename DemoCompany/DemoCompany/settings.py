@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dasdasdasdasfgadsfasfnjasfhgds
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
-ALLOWED_HOSTS = ['test-for-xsolla.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['morning-chamber-31843.herokuapp.com', '127.0.0.1']
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = True
