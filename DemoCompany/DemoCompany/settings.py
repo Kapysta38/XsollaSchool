@@ -31,12 +31,6 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dasdasdasdasfgadsfasfnjasfhgds
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
 ALLOWED_HOSTS = ['morning-chamber-31843.herokuapp.com', '127.0.0.1']
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 
 # Application definition
