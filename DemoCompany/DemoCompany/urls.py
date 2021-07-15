@@ -24,5 +24,5 @@ urlpatterns = [
     path('api/v1/auth_token/', include('djoser.urls.authtoken')),
     path('api/v1/auth/', include('rest_framework.urls')),
     path('api/v1/demoApi/', include('demoApi.urls')),
-    path('api/v1/docs/', include_docs_urls(title='Project for XsollaSchool'))
+    path('api/v1/docs/', include_docs_urls(title='Project for XsollaSchool', public=True))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -10,28 +10,27 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
 import os
-import dj_database_url
+from pathlib import Path
 
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure--#@ushv!*lpr@k+@tdqviyggjamcbsi&%$u7gafgo@!l$92uq3'
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dasdasdasdasfgadsfasfnjasfhgdsangasdasdo-insecure--#@ushv!*lpr@k+@tdqviyggjamcbsi&%$u7gafgo@!l$92uq3')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
+                            'dasdasdasdasfgadsfasfnjasfhgdsangasdasdo-insecure--#@ushv!*lpr@k+@tdqviyggjamcbsi&%$u7gafgo@!l$92uq3')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
 ALLOWED_HOSTS = ['morning-chamber-31843.herokuapp.com', '127.0.0.1']
-
 
 # Application definition
 
@@ -80,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DemoCompany.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -94,7 +92,6 @@ DATABASES = {
 # Heroku: Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -114,7 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -128,7 +124,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -138,7 +133,6 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -153,3 +147,13 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+
+CORS_REPLACE_HTTPS_REFERER = False
+HOST_SCHEME = "http://"
+SECURE_PROXY_SSL_HEADER = None
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
+SECURE_HSTS_SECONDS = None
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_FRAME_DENY = False
