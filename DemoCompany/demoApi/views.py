@@ -1,54 +1,83 @@
-from django.shortcuts import render
+import coreapi
+import coreschema
 from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework.exceptions import ParseError
-from .serializers import ProductDetailSerializer, ProductsListSerializer
 from .models import Product
+from .serializers import ProductDetailSerializer, ProductsListSerializer
+from rest_framework.schemas import AutoSchema, ManualSchema
 
 
 class ProductCreateView(generics.CreateAPIView):
+    """
+    Method for adding a new product
+    """
     serializer_class = ProductDetailSerializer
 
 
 class ProductsListView(generics.ListAPIView):
+    """
+    A method to get a catalog of product
+    """
+    schema = AutoSchema(
+        manual_fields=[
+            coreapi.Field('type',
+                          required=False,
+                          location='query',
+                          schema=coreschema.String(),
+                          description="not work, IDK"
+                          ),
+            coreapi.Field('price',
+                          required=False,
+                          location='query',
+                          description='not work, IDK',
+                          schema=coreschema.String(),
+                          ),
+            coreapi.Field('by_price',
+                          required=False,
+                          location='query',
+                          description='not work, IDK',
+                          schema=coreschema.String(),
+                          ),
+            coreapi.Field('to_price',
+                          required=False,
+                          location='query',
+                          description='not work, IDK',
+                          schema=coreschema.String(),
+                          ),
+
+        ]
+    )
     serializer_class = ProductsListSerializer
 
     @staticmethod
     def check_value(key, value):
         if not value.replace('.', '').isdigit():
-            raise ParseError(detail=f'параметр {key} должен иметь тип float or int')
+            raise ParseError(detail=f'Параметр {key} должен иметь тип float or int')
+        return True
 
-    def check_filter(self, data):
+    def get_queryset(self):
+        data = dict(self.request.query_params)
         result = Product.objects.all()
         if not data:
             return result
-        if 'type' in data:
-            result = result.filter(product_type=data['type'][0])
-        if 'price' in data:
-            self.check_value('price', data['price'][0])
-            result = result.filter(price=data['price'][0])
-        if 'by_price' in data:
-            self.check_value('by_price', data['by_price'][0])
-            result = result.filter(price__gte=data['by_price'][0])
-        if 'to_price' in data:
-            self.check_value('to_price', data['to_price'][0])
-            result = result.filter(price__lt=data['to_price'][0])
+        type_ = data.get('type', None)
+        result = result.filter(product_type=type_[0]) if (
+                    type_ is not None and self.check_value('type', type_[0])) else result
+        price = data.get('price', None)
+        result = result.filter(price=price[0]) if (
+                    price is not None and self.check_value('price', price[0])) else result
+        by_price = data.get('by_price', None)
+        result = result.filter(price__gte=by_price[0]) if (
+                    by_price is not None and self.check_value('by_price', by_price[0])) else result
+        to_price = data.get('to_price', None)
+        result = result.filter(price__lt=to_price[0]) if (
+                    to_price is not None and self.check_value('to_price', to_price[0])) else result
         return result
-
-    def get(self, request, *args, **kwargs):
-        self.queryset = self.check_filter(dict(request.GET))
-        queryset = self.filter_queryset(self.get_queryset())
-
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    View/change/delete one item method
+    """
     serializer_class = ProductDetailSerializer
     queryset = Product.objects.all()
-
